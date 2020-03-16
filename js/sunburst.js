@@ -3,8 +3,8 @@
 var w = 1000;
 var h = 1000;
 var r = Math.min(w, h) / 2;
-var colorScale = d3.scaleOrdinal(d3.schemeCategory20);
-let dataFile = " "; //need to enter the file being entered (will edit to run a TSV file)
+var colorScale = d3.scaleOrdinal(d3.schemeSet1);
+let dataFile = "myFile.json"; //need to enter the file being entered (will edit to run a TSV file)
 
 function createSunburst(data) {
     // Adds the svg element and also adjusts the element
@@ -109,11 +109,11 @@ function hoverNodes(hover) {
 };
 
 window.onload = () => {
-    d3.json(dataFile, function (error, nodeData) {
-        if (error) {
-            throw error;
-        }
-        allNodes = nodeData;
+    d3.json(dataFile).then(function (data) {
+        console.log(data);
+
+        allNodes = data;
+        console.log(data);
         createSunburst(allNodes);
-    });
+    })
 }
