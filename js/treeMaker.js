@@ -39,7 +39,7 @@ function findChildren(data) {
           childrenIndex.push(i);
         }
       });
-      parent.children = children;
+      parent.childrenSha = children;
       parent.childrenIndex = childrenIndex;
     });
   });
@@ -52,7 +52,7 @@ function makeTree(data) {
     element.childrenIndex.forEach(index => {
       treeChildrenList.push(data[index]);
     });
-    element.treeChildren = treeChildrenList;
+    element.children = treeChildrenList;
   });
   console.log(treeData);
   return treeData;
