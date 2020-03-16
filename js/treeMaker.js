@@ -1,10 +1,10 @@
 d3.dsv("\t", "CSCI_3090_Final.tsv").then(function (data) {
   data.forEach(e => {
-    e.Parents = eval(e.Parents);
+    e.parents = eval(e.parents);
     e.changes = eval(e.changes);
     e.additions = eval(e.additions);
     e.deletions = eval(e.deletions);
-    e.Parents = eval(e.Parents);
+    e.parents = eval(e.parents);
     e.files = eval(e.files);
   });
   findChildren(data);
@@ -13,7 +13,7 @@ d3.dsv("\t", "CSCI_3090_Final.tsv").then(function (data) {
   tree = makeTree(data);
   console.log(tree);
   console.log(JSON.stringify(tree));
-  // download(JSON.stringify(tree), 'myFile.json', 'js/');
+  // download(JSON.stringify(tree), 'CSCI_3090_Final.json');
   
 });
 
@@ -33,7 +33,7 @@ function findChildren(data) {
     //loop through every possible child
     data.forEach(function (possibleChild, i) {
       //loop through the list of parents
-      possibleChild.Parents.forEach(element => {
+      possibleChild.parents.forEach(element => {
         if (parent.sha === element) {
           children.push(possibleChild.sha);
           childrenIndex.push(i);

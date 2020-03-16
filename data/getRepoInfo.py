@@ -16,7 +16,7 @@ r = g.get_repo(userName+repoName)
 commit_list = list(r.get_commits())
 print("Reading info from " + repoName)
 f = open(repoName+".tsv", "w+")
-f.write("Author\tTime\tParents\tMessage\tsha\tchanges\tadditions\tdeletions\tfiles\n")
+f.write("author\ttime\tparents\tmessage\tsha\tchanges\tadditions\tdeletions\tfiles\n")
 for commit in commit_list:
     f.write(str(commit.commit.author.name))
     f.write("\t")
