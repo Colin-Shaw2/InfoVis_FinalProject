@@ -10,39 +10,20 @@ d3.dsv("\t", "CSCI_3090_Final.tsv").then(function (data) {
   findChildren(data);
   console.log(data[0]);
   console.log(data);
-  //console.log(JSON.stringify(data));
-  makeTree(data);
-  console.log(data);
-  //get the root look for children
-  // var treeData = [
-  //     {
-  //       "name": "Top Level",
-  //       "parent": "null",
-  //       "children": [
-  //         {
-  //           "name": "Level 2: A",
-  //           "parent": "Top Level",
-  //           "children": [
-  //             {
-  //               "name": "Son of A",
-  //               "parent": "Level 2: A"
-  //             },
-  //             {
-  //               "name": "Daughter of A",
-  //               "parent": "Level 2: A"
-  //             }
-  //           ]
-  //         },
-  //         {
-  //           "name": "Level 2: B",
-  //           "parent": "Top Level"
-  //         }
-  //       ]
-  //     }
-  //   ];
+  tree = makeTree(data);
+  console.log(tree);
+  console.log(JSON.stringify(tree));
+  // download(JSON.stringify(tree), 'myFile.json', 'js/');
+  
 });
 
-
+function download(content, fileName, contentType) {
+  var a = document.createElement("a");
+  var file = new Blob([content], {type: contentType});
+  a.href = URL.createObjectURL(file);
+  a.download = fileName;
+  a.click();
+}
 
 function findChildren(data) {
   //loop through once
@@ -74,6 +55,7 @@ function makeTree(data) {
     element.treeChildren = treeChildrenList;
   });
   console.log(treeData);
+  return treeData;
 }
 
 function makeRecursiveTree(inData, index) {
