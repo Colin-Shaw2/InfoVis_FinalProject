@@ -20,16 +20,18 @@ function update(){
 }
 
 function init(){
+  d3.json("/data/CSCI_3090_Final.json").then(function (data) {
+  
   // set the dimensions and margins of the diagram
   var margin = {top: 40, right: 90, bottom: 50, left: 90};
-  var width = 720 - margin.left - margin.right;
-  var height = 560 - margin.top - margin.bottom;
+  var width = 1280 - margin.left - margin.right;
+  var height = 720 - margin.top - margin.bottom;
 
   // declares a tree layout and assigns the size
   var treemap = d3.tree()
                   .size([width, height]);
   //  assigns the data to a hierarchy using parent-child relationships
-  var nodes = d3.hierarchy(treeData);
+  var nodes = d3.hierarchy(data);
 
   // maps the node data to the tree layout
   nodes = treemap(nodes);
@@ -45,9 +47,9 @@ function init(){
   
               
   ///// Lines
-  boxLine(svg, nodes);
+  //boxLine(svg, nodes);
   //curveLine(svg, nodes);
-  //straightLine(svg, nodes);
+  straightLine(svg, nodes);
   /////
 
   // adds each node as a group
@@ -67,9 +69,7 @@ function init(){
   timeSlider(svg);
   // Node Text
   placeText(node, width);
-  
-  
-
+  });
 }
 
 function normalNodes(node){
@@ -85,7 +85,7 @@ function placeText(node, width){
       .attr("x", function(d) { 
         return d.children ? width-d.x: width-d.x
       })
-      .text(function(d) { return d.data.name; });
+      .text(function(d) { return d.data.Author; });
 }
 
 function pieNodes(node){
@@ -200,12 +200,12 @@ function straightLine(svg, nodes){
 function timeSlider(svg){
    // Vertical
   var sliderVertical = d3.sliderLeft()
-                        .min(d3.min(100))
-                        .max(d3.max(0))
-                        .height(300)
-                        .tickFormat(d3.format('.2%'))
-                        .ticks(5)
-                        .default(0.015)
+                         .min(d3.min(100))
+                         .max(d3.max(0))
+                         .height(300)
+                         .tickFormat(d3.format('.2%'))
+                         .ticks(5)
+                         .default(0.015)
 						/*
                         .on('onchange', val => {
                           d3.select('p#value-vertical').text(d3.format('.2%')(val));
@@ -215,7 +215,7 @@ function timeSlider(svg){
                       
   gVertical.call(sliderVertical);
   svg.append("text")
-	  .attr("dy", ".35em")
+	  .attr("dy", "1em")
 	  .attr("y", 0)
 	  .attr("x", 0)
 	  .text("TIME");
