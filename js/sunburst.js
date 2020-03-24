@@ -3,7 +3,7 @@
 var w = 1000;
 var h = 1000;
 var r = Math.min(w, h) / 2;
-var colorScale = d3.scaleOrdinal(d3.schemeCategory20);
+var colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 let dataFile = " "; //need to enter the file being entered (will edit to run a TSV file)
 
 function createSunburst(data) {

@@ -21,7 +21,7 @@ function update(){
 
 function init(){
   d3.json("/data/CSCI_3090_Final.json").then(function (data) {
-  
+
   // set the dimensions and margins of the diagram
   var margin = {top: 40, right: 90, bottom: 50, left: 90};
   var width = 1280 - margin.left - margin.right;
@@ -29,12 +29,36 @@ function init(){
 
   // declares a tree layout and assigns the size
   var treemap = d3.tree()
+                  .separation(function(a, b) { return a.parent === b.parent ? 1 : 2; })
                   .size([width, height]);
   //  assigns the data to a hierarchy using parent-child relationships
-  var nodes = d3.hierarchy(data);
+  var nodes = d3.hierarchy(data)
+            
 
   // maps the node data to the tree layout
   nodes = treemap(nodes);
+  var center_x = nodes.x;
+  var center_y = nodes.y;
+  var main_branch = nodes.branch;
+  
+  //console.log(nodes);
+  //var center_x = ;
+  //var center_y = ;
+  nodes.each(d => {
+    // Main Branch is the Center
+    // x = center.x 
+    // y = center.y + dy 
+    // Merges Come Back to Center 
+    // x = center.x + dx 
+    // y = center.y + dy
+    // Branches Split off the Center
+    // x = center.x 
+    // y = center.y + dy 
+    /*
+    if(d.branch == main_branch){
+      d.x = center.x;
+    }*/
+  });
   // append the svg obgect to the body of the page
   // appends a 'group' element to 'svg'
   // moves the 'group' element to the top left margin
@@ -63,10 +87,10 @@ function init(){
   //// Node type
   //normalNodes(node);
   //pieNodes(node);
-  arcNodes(node, 5);
+  arcNodes(svg, 5, nodes.descendants());
   /////
 
-  timeSlider(svg);
+  //timeSlider(svg);
   // Node Text
   placeText(node, width);
   });
@@ -88,6 +112,15 @@ function placeText(node, width){
       .text(function(d) { return d.data.Author; });
 }
 
+function pan(){
+
+
+}
+
+function findMerge(node){
+
+}
+
 function pieNodes(node){
   // Data
   //var data = {a: 9, b: 20, c:30, d:8, e:12}
@@ -103,7 +136,7 @@ function pieNodes(node){
 
   // Pie
   var pie = d3.pie()
-
+  console.log(pie(data));
   //Generate groups
   var arcs =  node.selectAll("arc")
                 .data(pie(data))
@@ -113,40 +146,61 @@ function pieNodes(node){
                 
   arcs.append("path")
       .attr("fill", function(d, i) {
+         
           return color(i);
       })
       .attr("d", arc);
 }
 
-function arcNodes(node, radius){
-  // Data
-  //var data = {a: 9, b: 20, c:30, d:8, e:12}
-  var data = [2, 4, 8, 10];
-  // Arc
-  const arc = d3.arc()
-                .innerRadius(radius)
-                .outerRadius(10)
 
-  // Color
-  //var color = d3.scaleOrdinal().domain(["a", "b", "c", "d", "e", "f"]).range(d3.schemeDark2);
-  var color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);
-  // Pie
-  var pie = d3.pie()
+function show(){
 
-  //Generate groups
-  var arcs = node.selectAll("arc")
-                 .data(pie(data))
-                 .enter()
-                 .append("g")
-                 .attr("class", "arc")
-                
-  arcs.append("path")
-      .attr("fill", function(d, i) {
+
+}
+
+function arcNodes(svg, radius, data){
+  // Arc Basis Function
+  var arc = d3.arc()
+              .innerRadius(radius)
+              .outerRadius(10)
+  // Pie Basis Function
+  var pie = d3.pie();
+  // Red: Deletion 
+  var red = d3.schemeCategory10[3];
+  // Green: Addition
+  var green = d3.schemeCategory10[2];
+  // Color Scale
+  var color = d3.scaleOrdinal([green, red]);
+
+  // Value Mapping 
+  var values = data.map(function (d) { 
+    let additions = d.data.additions[0];
+    let deletions = d.data.deletions[0];
+    if(additions == undefined){
+      additions = 0;
+    }
+    if(deletions == undefined){
+      deletions = 0;
+    }
+    return [additions, deletions]
+  })
+
+  // Add Arcs to Each Node
+  data.forEach(function (d,i) {
+    d_new = pie(values[i])
+    var arcs = svg.selectAll("arc")
+                  .data(d_new)
+                  .enter()
+                  .append("g")
+                  .attr("class", "arc")
+
+    arcs.append("path")
+        .attr("fill", function(d, i) {
           return color(i);
-      })
-      .attr("d", arc);
-
-
+        })
+        .attr("d", arc)
+        .attr("transform", function() {return "translate(" + d.x + "," + d.y + ")"; });
+  });
 }
 
 function boxLine(svg, nodes){
