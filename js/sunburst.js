@@ -109,11 +109,11 @@ function hoverNodes(hover) {
 };
 
 window.onload = () => {
-    d3.json(dataFile, function (error, nodeData) {
-        if (error) {
-            throw error;
-        }
-        allNodes = nodeData;
+    d3.json(dataFile).then(function (data) {
+        console.log(data);
+
+        allNodes = data;
+        console.log(data);
         createSunburst(allNodes);
-    });
+    })
 }
