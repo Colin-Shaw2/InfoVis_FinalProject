@@ -1,11 +1,18 @@
-div{
-    text-align: center;
-    padding-top: 100px;
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
 }
 
-/* @import url('https://fonts.googleapis.com/css?family=Raleway');
+div{
+    text-align: center;
+    padding-top: 30px;
+}
 
-body {
-    font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
-} */
-
+.gitInfo{
+    display: grid;
+    text-align: center;
+    grid-gap: 50px;
+    grid-template-columns: repeat(3, calc(600px / 2));
+    grid-auto-rows: auto;
+    grid-auto-rows: minmax(10px, auto);
+    justify-content: center;
