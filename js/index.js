@@ -32,7 +32,7 @@ function init(){
         if(d.data.isMain == "true"){
           d.x = center_x;
         }
-        if(d.data.isMain == "true"){
+        if(d.data.isMain == "false"){
           i++;
         }
   
