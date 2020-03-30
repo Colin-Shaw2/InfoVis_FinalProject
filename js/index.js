@@ -14,7 +14,7 @@ var nodeType = 2;
 var lineType = 0;
 
 function init(){
-  d3.json("/data/CSCI_3090_Final2.json").then(function (data) {
+  d3.json("/data/SushiGotest.json").then(function (data) {
     // declares a tree layout and assigns the size
     results = data;
     var treemap = d3.tree()
@@ -25,26 +25,47 @@ function init(){
     // maps the node data to the tree layout
     nodes = treemap(nodes);
 
-    console.log(nodes);
-    var center_x = nodes.x;
-    var i = 0;
-    nodes.each(d => {
-        if(d.data.isMain == "true"){
-          d.x = center_x;
-        }
-        if(d.data.isMain == "false"){
-          i++;
-        }
-  
-    });
-    console.log("Number of main:" + i);
-    // Create SVG
+
     svg = d3.select("body")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+
+    var center_x = nodes.x;
+    var i = 0;
+    var seen_branches = []
+    nodes.each(d => {
+        if(d.data.branch == "master"){
+          d.x = center_x;
+          console.log(center_x);
+        } 
+
+        if(!seen_branches.includes(d.data.branch)){
+          seen_branches.push(d.data.branch);
+          svg.append("text")
+             .attr("x", d.x + 200)
+             .attr("y", d.y)
+             .attr("dy", ".35em")
+             .text(d.data.branch)
+        }
+
+        /*
+        if(i % 3 == 0){
+          d.x = 0
+          d.y = 0
+          svg.enter()
+             .append("g")
+             .attr("class", "node" + (d.children ? " node--internal" : " node--leaf"))
+             .attr("transform", function(d) {return "translate(" + d.x + "," + d.y + ")"; });
+        }*/
+        i++;
+        console.log(d.data.branch);
+  
+    });
+    // Create SVG
+    
     
                 
     ///// Lines
@@ -58,7 +79,7 @@ function init(){
               .append("g")
               .attr("class", function(d) { return "node" + (d.children ? " node--internal" : " node--leaf"); })
               .attr("transform", function(d) {return "translate(" + d.x + "," + d.y + ")"; });
-
+    
     // Creates nodes
     arcNodes(svg, 5, nodes.descendants());
     });
