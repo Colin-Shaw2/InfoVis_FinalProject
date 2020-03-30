@@ -1,0 +1,33 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+div{
+    text-align: center;
+}
+
+.container{
+    display: grid;
+    text-align: center;
+    grid-gap: 400px;
+    grid-template-columns: repeat(2, calc(1000px / 2));
+    grid-auto-rows: auto;
+    grid-auto-rows: minmax(10px, auto);
+    justify-content: center;
+
+    padding-top: 100px;
+}
+
+.gitInfo{
+    display: grid;
+    text-align: center;
+    grid-gap: 50px;
+    grid-template-columns: repeat(3, calc(600px / 2));
+    grid-auto-rows: auto;
+    grid-auto-rows: minmax(10px, auto);
+    justify-content: center;
+
+    padding-left: 300px;
+    padding-top: 100px;
+}
