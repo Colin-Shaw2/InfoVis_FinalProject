@@ -437,7 +437,7 @@ function hoverNodes(hover) {
           // console.log(fileArray);
 
           for (let i = 0; i < data.data.files.length; i++) {
-            if (i > 10) {
+            if (i > 9) {
               break;
             }
             fileInfo.innerHTML += data.data.files[i] + "<br>";
