@@ -37,19 +37,32 @@ function init(){
     var i = 0;
     var seen_branches = []
     nodes.each(d => {
+        d.x = 0;
         if(d.data.branch == "master"){
-          d.x = center_x;
-          console.log(center_x);
+          // svg.append("text")
+          //    .attr("x", d.x+20)
+          //    .attr("y", d.y)
+          //    .attr("dy", ".35em")
+          //    .text(d.data.message)
         } 
-
+        console.log(d.data.branch)
         if(!seen_branches.includes(d.data.branch)){
           seen_branches.push(d.data.branch);
           svg.append("text")
-             .attr("x", d.x + 200)
-             .attr("y", d.y)
+             .attr("x", d.x + seen_branches.indexOf(d.data.branch)*100)
+             .attr("y", d.y -20)
              .attr("dy", ".35em")
              .text(d.data.branch)
+             d.x += seen_branches.indexOf(d.data.branch)*100;
+        }else{
+          d.x += seen_branches.indexOf(d.data.branch)*100;
+
         }
+        // svg.append("text")
+        //    .attr("x", d.x+20)
+        //    .attr("y", d.y)
+        //    .attr("font-size", "8")
+        //    .text(d.data.time)
 
         /*
         if(i % 3 == 0){
@@ -61,7 +74,7 @@ function init(){
              .attr("transform", function(d) {return "translate(" + d.x + "," + d.y + ")"; });
         }*/
         i++;
-        console.log(d.data.branch);
+        // console.log(d.data.branch);
   
     });
     // Create SVG
