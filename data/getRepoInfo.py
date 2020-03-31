@@ -9,14 +9,16 @@ from github import Github
 # Change these three lines to get a new repo
 g = Github("5a621998e641186df69f66d0557a9fa383ef9062")
 userName = "Colin-Shaw2/"
-repoName = "CSCI_3090_Final"
+# repoName = "CSCI_3090_Final"
 # repoName = "SQA_Project"
+repoName = "SushiGo"
 
 r = g.get_repo(userName+repoName)
 commit_list = list(r.get_commits())
 print("Reading info from " + repoName)
-f = open(repoName+".tsv", "w+")
-f.write("author\ttime\tparents\tmessage\tsha\tchanges\tadditions\tdeletions\tfiles\n")
+f = open(repoName+"test.tsv", "w+")
+f.write("author\ttime\tparents\tmessage\tsha\tchanges\tadditions\tdeletions\tfiles\tbranch\n")
+branch_list = r.get_branches()
 for commit in commit_list:
     f.write(str(commit.commit.author.name))
     f.write("\t")
@@ -48,9 +50,22 @@ for commit in commit_list:
     f.write("\t")
     f.write(str(filename))
     f.write("\t")
-    f.write("\n")
+    # Determine what branch the commit is in
+    name = ""
+    for branch in branch_list:
+        head = branch.commit.commit.sha
+        if(commit.commit.sha == head):
+            f.write(str(branch.name))
+            f.write("\n")
+            name = branch.name
+    if (name == ""):
+        f.write("master")
+        f.write("\n")
+    
+    # f.write("\n")
     # print(commit.commit.parents)
     #print(commit.files[0].changes)
+print(branch_list)
 f.close()
 print("FINISHED")
 # for repo in g.get_user().get_repos():
