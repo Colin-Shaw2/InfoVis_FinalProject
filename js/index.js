@@ -53,6 +53,10 @@ function init(){
              .attr("y", d.y -20)
              .attr("dy", ".35em")
              .text(d.data.branch)
+             .on("mouseover", handleMouseOver)
+             .on("mouseout", handleMouseOut);
+
+             
              d.x += seen_branches.indexOf(d.data.branch)*100;
         }else{
           d.x += seen_branches.indexOf(d.data.branch)*100;
@@ -97,6 +101,37 @@ function init(){
     arcNodes(svg, 5, nodes.descendants());
     });
 }
+
+function handleMouseOver(d, i){
+  d3.select(this).attr({
+    fill: "orange",
+    r: radius * 2
+  });
+
+  // Specify where to put label of text
+  svg.append("text").attr({
+     id: "t" + d.x + "-" + d.y + "-" + i,  // Create an id for text so we can select it later for removing on mouseout
+      x: function() { return xScale(d.x) - 30; },
+      y: function() { return yScale(d.y) - 15; }
+  })
+  .text(function() {
+    return [d.x, d.y];  // Value of the text
+  });
+
+
+}
+
+function handleMouseOut(d, i){
+  // Use D3 to select element, change color back to normal
+  d3.select(this).attr({
+    fill: "black",
+    r: radius
+  });
+
+  // Select text by id and then remove
+  d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
+}
+
 
 function updateNode(input){
   nodeType = input;
@@ -223,17 +258,21 @@ function arcNodes(svg, radius, data){
   // Green: Addition
   var green = d3.schemeCategory10[2];
   // Color Scale
-  var color = d3.scaleOrdinal([green, red]);
+  var color = d3.scaleOrdinal([green, red, "#808080"]);
 
   // Value Mapping 
   var values = data.map(function (d) { 
     let additions = d.data.additions[0];
     let deletions = d.data.deletions[0];
+    let changes = d.data.changes[0];
     if(additions == undefined){
       additions = 0;
     }
     if(deletions == undefined){
       deletions = 0;
+    }
+    if(changes == 0){
+      return [0,0,1]
     }
     return [additions, deletions]
   })
