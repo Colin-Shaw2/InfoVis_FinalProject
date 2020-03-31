@@ -1,13 +1,14 @@
 
 //Dimensions and Color variables
-var w = 1000;
-var h = 1000;
+var w = 750;
+var h = 750;
 var r = Math.min(w, h) / 2;
-var colorScale = d3.scaleOrdinal(d3.schemeCategory20);
-let dataFile = " "; //need to enter the file being entered (will edit to run a TSV file)
+var colorScale = d3.scaleOrdinal(d3.schemeSet1);
+let dataFile = "SushiGO.json"; //need to enter the file being entered (will edit to run a TSV file)
+
 
 function createSunburst(data) {
-    // Adds the svg element and also adjusts the element
+    //Adds the svg element and also adjusts the element
     //There is also a transformation to keep it in the centre of the element region
     var g = d3.select('svg')
         .attr('height', h)
@@ -20,7 +21,10 @@ function createSunburst(data) {
 
     root = d3.hierarchy(data)
         .sum(function (d) {
-            return d.size;
+            if (d.changes == undefined) {
+                return 0;
+            }
+            return d3.sum(d.changes);
         })
         .sort(function (a, b) {
             return b.value - a.value;
@@ -45,7 +49,7 @@ function createSunburst(data) {
         });
 
 
-    split = g.selectAll('g').data(root.descendants(), function (d) { return d.data.name; });
+    split = g.selectAll('g').data(root.descendants(), function (d) { return d.data.author; });
     splitNodes = split.enter()
         .append('g')
         .attr("class", "node")
@@ -60,7 +64,7 @@ function createSunburst(data) {
         .attr("d", arc)
         .style('stroke', '#fff')
         .style("fill", function (d) {
-            return colorScale((d.children ? d : d.parent).data.name);
+            return colorScale((d.children ? d : d.parent).data.author);
         });
 
 
@@ -72,10 +76,11 @@ function createSunburst(data) {
             return "translate(" + arc.centroid(d) + ")rotate(" + rotateText(d) + ")";
         })
         .attr("dy", "5")
-        .attr("dx", "-20")
+        .attr("dx", "-45")
         .text(function (d) {
-            return d.parent ? d.data.name : "";
+            return d.children ? d.data.author : "";
         });
+
 
     splitNodes.on("mouseover", hoverNodes);
 };
@@ -88,17 +93,61 @@ function rotateText(d) {
 
 // Redraw the Sunburst Based on User Input
 function hoverNodes(hover) {
+    let userInfo = document.querySelector("#userInfo");
+    let fileInfo = document.querySelector("#fileInfo");
+    let changeInfo = document.querySelector("#changeInfo");
     var rootPath = hover.path(root).reverse();
     rootPath.shift();
     splitNodes.style("opacity", 0.3);
     splitNodes.filter(function (data) {
+
         if (data.hoveredOn && hover === data) {
+            userInfo.innerHTML = "";
+            fileInfo.innerHTML = "";
+            changeInfo.innerHTML = "";
+
+            userInfo.innerHTML = "<strong>History</strong><br>";
+            fileInfo.innerHTML = "<strong>Files</strong><br>";
+            changeInfo.innerHTML = "<strong>Changes Made</strong><br>";
+
             data.hoveredOn = false;
             splitNodes.style("opacity", 1);
             return true;
 
         } else if (hover === data) {
+            //TEST
+            // console.log(data.data);
+            userInfo.innerHTML = "";
+            fileInfo.innerHTML = "";
+            changeInfo.innerHTML = "";
+            userInfo.innerHTML = "<strong>History</strong><br>";
+            if (userInfo) {
+                userInfo.innerHTML += data.data.author + " ";
+                if (data.data.time !== undefined) {
+                    userInfo.innerHTML += data.data.time;
+                }
+
+                fileInfo.innerHTML = "<strong>Files</strong><br>";
+                changeInfo.innerHTML = "<strong>Changes Made</strong><br>";
+                if (data.data.files !== undefined) {
+                    // let fileArray = [];
+                    // for (let i = 0; data.data.files.length; i++) {
+                    //     let dataMap = { files: data.data.files[i], changes: data.data.changes[i] }
+                    //     fileArray.push(dataMap);
+                    // }
+                    // console.log(fileArray);
+
+                    for (let i = 0; i < data.data.files.length; i++) {
+                        if (i > 10) {
+                            break;
+                        }
+                        fileInfo.innerHTML += data.data.files[i] + "<br>";
+                        changeInfo.innerHTML += data.data.changes[i] + "<br>";
+                    }
+                }
+            }
             data.hoveredOn = true;
+
             return true;
         } else {
             data.hoveredOn = false;
@@ -109,11 +158,8 @@ function hoverNodes(hover) {
 };
 
 window.onload = () => {
-    d3.json(dataFile, function (error, nodeData) {
-        if (error) {
-            throw error;
-        }
-        allNodes = nodeData;
+    d3.json(dataFile).then(function (data) {
+        allNodes = data;
         createSunburst(allNodes);
-    });
+    })
 }

@@ -7,10 +7,21 @@
   <script src="js/index.js"></script>
   <script src="https://unpkg.com/d3-simple-slider"></script>
   <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+  crossorigin="anonymous"></script>
+
 </head>
 <body onload=init()>  
   <h1>RepoName</h1>
-   <p id="value-vertical"></p>
-   <div id="slider-vertical"></div>
+   <div id="colorButton">
+    <input type="radio" name="colorButton" value="1" onclick="updateNode(1)" checked> Node 1<br>
+    <input type="radio" name="colorButton" value="2" onclick="updateNode(1)"> Node 2<br>
+    <input type="radio" name="colorButton" value="Line 3" onclick="updateNode(2)"> Node 3<br>
+    <input type="radio" name="colorButton" value="Node 1" onclick="updateLine(1)"> Link 1<br>
+    <input type="radio" name="colorButton" value="Node 2" onclick="updateLine(2)"> Link 2<br>
+    <input type="radio" name="colorButton" value="Node 3" onclick="updateLine(3)"> Link 3<br>
+  </div>
 </body>
 </html>
