@@ -33,7 +33,7 @@ function init() {
     })
 
     treeViewSize = distanceBetweenNodes * largestDepth;
-    treemap = treemap.size([width, treeViewSize]);
+    treemap = treemap.size([screen.width*.45, treeViewSize]);
     // maps the node data to the tree layout
     nodes = treemap(nodes);
 
@@ -44,7 +44,7 @@ function init() {
     svg = d3.select(".part1")
       .append("svg")
       // .attr("style", "overflow-y:scroll;height: 1000px;")
-      .attr("width", screen.width*.32)
+      .attr("width", document.getElementById("part1").offsetWidth-40)
       .attr("height", treeViewSize + margin.top + margin.bottom)
       // .attr("width", width + margin.left + margin.right)
       // .attr("height", treeViewSize + margin.top + margin.bottom)
@@ -52,7 +52,7 @@ function init() {
       // .attr("height", screen.height*1.5 + margin.bottom*2)
       // .attr("style", "overflow-y:scroll;")
       .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("transform", "translate(" + 10 + "," + 10+ ")");
       
       var center_x = nodes.x;
       var i = 0;
