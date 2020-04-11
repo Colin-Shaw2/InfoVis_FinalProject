@@ -322,6 +322,7 @@ function rotateText(d) {
 
 // Redraw the Sunburst Based on User Input
 function hoverNodes(hover) {
+  console.log("Test")
   let userInfo = document.querySelector("#userInfo");
   let fileInfo = document.querySelector("#fileInfo");
   let changeInfo = document.querySelector("#changeInfo");
