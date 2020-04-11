@@ -121,6 +121,7 @@ function init() {
 
     // Creates nodes
     arcNodes(svg, 5, nodes.descendants());
+    node.on("mouseover", hoverNodes);
   });
 }
 
