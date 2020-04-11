@@ -73,8 +73,21 @@ function init() {
            .attr("dy", ".35em")
            .attr("text-anchor", "start")
            .text(d.data.branch)
-          
-        
+        //write names multiple times
+        var currentHeight = 0;
+        var i = 0;
+        while(currentHeight<largestDepth*distanceBetweenNodes){
+          currentHeight += screen.height;
+          i++;
+          svg.append("g")
+          .attr("transform", "translate(" + textPosition + "," + screen.height*i*.8 + ")")
+          .append("text")
+          .attr("transform", "rotate(90)")
+          .attr("dy", ".35em")
+          .attr("text-anchor", "start")
+          .text(d.data.branch)
+        }
+
         d.x += seen_branches.indexOf(d.data.branch) * 90 + 40;
         // Branch Color Column
         var columnwidth = distanceBetweenNodes*4;
