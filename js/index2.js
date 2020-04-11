@@ -36,6 +36,9 @@ function init() {
     // maps the node data to the tree layout
     nodes = treemap(nodes);
 
+    // 
+    var columnScale = d3.scaleOrdinal(d3.schemeCategory10);
+
 
     svg = d3.select(".part1")
       .append("svg")
@@ -55,53 +58,37 @@ function init() {
     nodes.each(d => {
       d.x = 0;
       if (d.data.branch == "master") {
-        // svg.append("text")
-        //    .attr("x", d.x+20)
-        //    .attr("y", d.y)
-        //    .attr("dy", ".35em")
-        //    .text(d.data.message)
       }
-      console.log(d.data.branch)
+      //console.log(d.data.branch)
       if (!seen_branches.includes(d.data.branch)) {
         seen_branches.push(d.data.branch);
         svg.append("text")
           .attr("x", d.x + seen_branches.indexOf(d.data.branch) * 100)
-          .attr("y", d.y - 20)
+          .attr("y", - 20)
           .attr("dy", ".35em")
+          .attr("text-anchor", "start")
           .text(d.data.branch)
-          .on("mouseover", handleMouseOver)
-          .on("mouseout", handleMouseOut);
-
-
+          
+        
         d.x += seen_branches.indexOf(d.data.branch) * 100;
+        // Branch Color Column
+        var columnwidth = distanceBetweenNodes*4;
+        svg.append("rect")
+          .attr("x", d.x - 10)
+          .attr("y", -10)
+          .attr("width", columnwidth)
+          .attr("height", treeViewSize + 10)
+          .attr("fill-opacity", .25)
+          .attr('fill', columnScale(seen_branches.indexOf(d.data.branch)))
+        console.log("Adding rect")
+
       } else {
         d.x += seen_branches.indexOf(d.data.branch) * 100;
 
       }
-      // svg.append("text")
-      //    .attr("x", d.x+20)
-      //    .attr("y", d.y)
-      //    .attr("font-size", "8")
-      //    .text(d.data.time)
-
-      /*
-      if(i % 3 == 0){
-        d.x = 0
-        d.y = 0
-        svg.enter()
-           .append("g")
-           .attr("class", "node" + (d.children ? " node--internal" : " node--leaf"))
-           .attr("transform", function(d) {return "translate(" + d.x + "," + d.y + ")"; });
-      }*/
       i++;
-      // console.log(d.data.branch);
 
     });
-
-    // Create SVG
-
-
-
     ///// Lines
     straightLine(svg, nodes);
 
@@ -117,99 +104,6 @@ function init() {
     // Creates nodes
     arcNodes(svg, 5, nodes.descendants());
   });
-}
-
-function handleMouseOver(d, i) {
-  d3.select(this).attr({
-    fill: "orange",
-    r: radius * 2
-  });
-
-  // Specify where to put label of text
-  svg.append("text").attr({
-    id: "t" + d.x + "-" + d.y + "-" + i,  // Create an id for text so we can select it later for removing on mouseout
-    x: function () { return xScale(d.x) - 30; },
-    y: function () { return yScale(d.y) - 15; }
-  })
-    .text(function () {
-      return [d.x, d.y];  // Value of the text
-    });
-
-
-}
-
-function handleMouseOut(d, i) {
-  // Use D3 to select element, change color back to normal
-  d3.select(this).attr({
-    fill: "black",
-    r: radius
-  });
-
-  // Select text by id and then remove
-  d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
-}
-
-
-function updateNode(input) {
-  nodeType = input;
-  update();
-}
-
-function updateLine(input) {
-  lineType = input;
-  update();
-}
-
-
-function update() {
-  console.log("Changing lines")
-  // Remove all 
-  d3.select("svg")
-    .selectAll("g")
-    .html("");
-
-  var treemap = d3.tree()
-    .separation(function (a, b) { return a.parent === b.parent ? 1 : 2; })
-    .size([width, height]);
-  // assigns the data to a hierarchy using parent-child relationships
-  nodes = d3.hierarchy(results)
-  // maps the node data to the tree layout
-  nodes = treemap(nodes);
-
-  // Nodes
-  if (nodeType == 0) {
-    normalNodes(node);
-  } else if (nodeType == 1) {
-    arcNodes(svg, 5, nodes.descendants());
-  } else if (nodeType == 2) {
-    arcNodes(svg, 0, nodes.descendants());
-  }
-
-  // Links
-  if (lineType == 0) {
-    straightLine(svg, nodes);
-  } else if (lineType == 1) {
-    curveLine(svg, nodes);
-  } else if (lineType == 2) {
-    boxLine(svg, nodes);
-  }
-
-
-
-}
-
-function curveLine(svg, nodes) {
-  var link = svg.selectAll(".link")
-    .data(nodes.descendants().slice(1))
-    .enter()
-    .append("path")
-    .attr("class", "link")
-    .attr("d", function (d) {
-      return "M" + d.x + "," + d.y
-        + "C" + d.x + "," + (d.y + d.parent.y) / 2
-        + " " + d.parent.x + "," + (d.y + d.parent.y) / 2
-        + " " + d.parent.x + "," + d.parent.y;
-    });
 }
 
 function straightLine(svg, nodes) {
@@ -230,27 +124,6 @@ function straightLine(svg, nodes) {
     .attr('y2', function (d) { return d.parent.y })
 }
 
-function boxLine(svg, nodes) {
-  svg.selectAll(".link")
-    .data(nodes.descendants().slice(1))
-    .enter()
-    .append("path")
-    .attr("class", "link")
-    .attr("d", function (d) { return box(d); });
-
-}
-
-function box(d) {
-  return "M" + d.x + "," + d.y
-    + "L" + d.x + "," + (d.y + d.parent.y) / 2
-    + " " + d.parent.x + "," + (d.y + d.parent.y) / 2
-    + " " + d.parent.x + "," + d.parent.y;
-}
-
-function normalNodes(node) {
-  node.append("circle")
-    .attr("r", 10)
-}
 
 function placeText(node, width) {
   node.append("text")
