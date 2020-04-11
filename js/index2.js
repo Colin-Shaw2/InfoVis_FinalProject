@@ -33,7 +33,7 @@ function init() {
     })
 
     treeViewSize = distanceBetweenNodes * largestDepth;
-    treemap = treemap.size([screen.width*.45, treeViewSize]);
+    treemap = treemap.size([screen.width * .45, treeViewSize]);
     // maps the node data to the tree layout
     nodes = treemap(nodes);
 
@@ -44,7 +44,7 @@ function init() {
     svg = d3.select(".part1")
       .append("svg")
       // .attr("style", "overflow-y:scroll;height: 1000px;")
-      .attr("width", document.getElementById("part1").offsetWidth-40)
+      .attr("width", document.getElementById("part1").offsetWidth - 40)
       .attr("height", treeViewSize + margin.top + margin.bottom)
       // .attr("width", width + margin.left + margin.right)
       // .attr("height", treeViewSize + margin.top + margin.bottom)
@@ -52,12 +52,12 @@ function init() {
       // .attr("height", screen.height*1.5 + margin.bottom*2)
       // .attr("style", "overflow-y:scroll;")
       .append("g")
-      .attr("transform", "translate(" + 10 + "," + 10+ ")");
-      
-      var center_x = nodes.x;
-      var i = 0;
-      var seen_branches = []
-      var textPosition = 0;
+      .attr("transform", "translate(" + 10 + "," + 10 + ")");
+
+    var center_x = nodes.x;
+    var i = 0;
+    var seen_branches = []
+    var textPosition = 0;
     nodes.each(d => {
       d.x = 0;
       if (d.data.branch == "master") {
@@ -65,36 +65,36 @@ function init() {
       //console.log(d.data.branch)
       if (!seen_branches.includes(d.data.branch)) {
         seen_branches.push(d.data.branch);
-        textPosition = 90*seen_branches.indexOf(d.data.branch)+5;
+        textPosition = 90 * seen_branches.indexOf(d.data.branch) + 5;
         svg.append("g")
-           .attr("transform", "translate(" + textPosition + "," + -10 + ")")
-           .append("text")
-           .attr("transform", "rotate(90)")
-           .attr("dy", ".35em")
-           .attr("text-anchor", "start")
-           .text(d.data.branch)
-        //write names multiple times
-        var currentHeight = 0;
-        var i = 0;
-        while(currentHeight<largestDepth*distanceBetweenNodes){
-          currentHeight += screen.height;
-          i++;
-          svg.append("g")
-          .attr("transform", "translate(" + textPosition + "," + screen.height*i*.8 + ")")
+          .attr("transform", "translate(" + textPosition + "," + -10 + ")")
           .append("text")
           .attr("transform", "rotate(90)")
           .attr("dy", ".35em")
           .attr("text-anchor", "start")
           .text(d.data.branch)
+        //write names multiple times
+        var currentHeight = 0;
+        var i = 0;
+        while (currentHeight < largestDepth * distanceBetweenNodes) {
+          currentHeight += screen.height;
+          i++;
+          svg.append("g")
+            .attr("transform", "translate(" + textPosition + "," + screen.height * i * .8 + ")")
+            .append("text")
+            .attr("transform", "rotate(90)")
+            .attr("dy", ".35em")
+            .attr("text-anchor", "start")
+            .text(d.data.branch)
         }
 
         d.x += seen_branches.indexOf(d.data.branch) * 90 + 40;
         // Branch Color Column
-        var columnwidth = distanceBetweenNodes*4;
+        var columnwidth = distanceBetweenNodes * 4;
         svg.append("rect")
           .attr("x", seen_branches.indexOf(d.data.branch) * 90 - 5)
           .attr("y", -10)
-          .attr("width", columnwidth-10)
+          .attr("width", columnwidth - 10)
           .attr("height", treeViewSize + 25)
           .attr("fill-opacity", .25)
           .attr('fill', columnScale(seen_branches.indexOf(d.data.branch)))
@@ -208,8 +208,8 @@ function arcNodes(svg, radius, data) {
 //////FOR SUNBURST/////////////////
 
 //Dimensions and Color variables
-var h = screen.height*.6;
-var w = screen.width*.6;
+var h = screen.height * .6;
+var w = screen.width * .6;
 var r = Math.min(w, h) / 2;
 var colorScale = d3.scaleOrdinal(d3.schemeSet1);
 
@@ -222,7 +222,7 @@ let dataFile = "SushiGO.json"; //need to enter the file being entered (will edit
 function createSunburst(data) {
   //Adds the svg element and also adjusts the element
   //There is also a transformation to keep it in the centre of the element region
-  var neww = w *0.45;
+  var neww = w * 0.45;
   var g = d3.select('.svgSun')
     // .attr('height', screen.height)
     // .attr('width', screen.width)
