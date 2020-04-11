@@ -18,14 +18,14 @@ div{
 .part1{
     overflow-y:scroll;
     height: 100vh;
-    width: 35vw;
+    width: 25vw;
     
 }
 
 .container{
     display: grid;
     text-align: center;
-    grid-gap: 50px;
+    grid-gap:10px;
     grid-template-columns: repeat(2, calc(1000px / 2));
     grid-auto-rows: auto;
     grid-auto-rows: minmax(10px, auto);

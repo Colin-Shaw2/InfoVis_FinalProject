@@ -194,8 +194,8 @@ function arcNodes(svg, radius, data) {
 //////FOR SUNBURST/////////////////
 
 //Dimensions and Color variables
-var h = screen.height;
-var w = screen.width*.45;
+var h = screen.height*.6;
+var w = screen.width*.6;
 var r = Math.min(w, h) / 2;
 var colorScale = d3.scaleOrdinal(d3.schemeSet1);
 
@@ -208,13 +208,14 @@ let dataFile = "SushiGO.json"; //need to enter the file being entered (will edit
 function createSunburst(data) {
   //Adds the svg element and also adjusts the element
   //There is also a transformation to keep it in the centre of the element region
+  var neww = w *0.45;
   var g = d3.select('.svgSun')
     // .attr('height', screen.height)
     // .attr('width', screen.width)
     .attr('height', h)
     .attr('width', w)
     .append('g')
-    .attr('transform', 'translate(' + h / 2.5 + ',' + w / 2 + ')')
+    .attr('transform', 'translate(' + r + ',' + h / 2 + ')')
 
 
   g.append("text")
@@ -344,12 +345,7 @@ function hoverNodes(hover) {
         fileInfo.innerHTML = "<strong>Files</strong><br>";
         changeInfo.innerHTML = "<strong>Changes Made</strong><br>";
         if (data.data.files !== undefined) {
-          // let fileArray = [];
-          // for (let i = 0; data.data.files.length; i++) {
-          //     let dataMap = { files: data.data.files[i], changes: data.data.changes[i] }
-          //     fileArray.push(dataMap);
-          // }
-          // console.log(fileArray);
+
 
           for (let i = 0; i < data.data.files.length; i++) {
             if (i > 9) {
