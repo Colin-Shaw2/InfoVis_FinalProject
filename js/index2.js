@@ -1,4 +1,5 @@
 // set the dimensions and margins of the diagram
+
 var margin = { top: 40, right: 90, bottom: 50, left: 90 };
 var width = 1280 - margin.left - margin.right;
 var height = 720 - margin.top - margin.bottom;
@@ -12,30 +13,45 @@ var node;
 var nodes;
 var nodeType = 2;
 var lineType = 0;
+var distanceBetweenNodes= 25;
 
 function init() {
   d3.json("/data/SushiGotest.json").then(function (data) {
     // declares a tree layout and assigns the size
     results = data;
+    var treeViewSize =0;
     var treemap = d3.tree()
-      .separation(function (a, b) { return a.parent === b.parent ? 1 : 2; })
-      .size([width, height]);
+    .separation(function (a, b) { return a.parent === b.parent ? 1 : 2; })
+    .size([width, screen.height*1.5]);
     //  assigns the data to a hierarchy using parent-child relationships
     nodes = d3.hierarchy(data)
+
+    var largestDepth = 0;
+    nodes.each(d => {
+      (d.depth > largestDepth)?largestDepth = d.depth:largestDepth +=0;
+    })
+    
+    treeViewSize = distanceBetweenNodes*largestDepth;
+    treemap = treemap.size([width, treeViewSize]);
     // maps the node data to the tree layout
     nodes = treemap(nodes);
 
 
     svg = d3.select(".part1")
       .append("svg")
+      // .attr("style", "overflow-y:scroll;height: 1000px;")
       .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+      .attr("height", treeViewSize + margin.top + margin.bottom)
+      // .attr("width", 500)
+      // .attr("height", screen.height*1.5 + margin.bottom*2)
+      // .attr("style", "overflow-y:scroll;")
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    var center_x = nodes.x;
-    var i = 0;
-    var seen_branches = []
+      
+      var center_x = nodes.x;
+      var i = 0;
+      var seen_branches = []
+      
     nodes.each(d => {
       d.x = 0;
       if (d.data.branch == "master") {
@@ -81,6 +97,7 @@ function init() {
       // console.log(d.data.branch);
 
     });
+
     // Create SVG
 
 
@@ -457,6 +474,8 @@ function hoverNodes(hover) {
 };
 
 window.onload = () => {
+  var scale = 'scale(0.8)';
+  document.body.style.transform = scale;
   d3.json(dataFile).then(function (data) {
     allNodes = data;
     createSunburst(allNodes);
