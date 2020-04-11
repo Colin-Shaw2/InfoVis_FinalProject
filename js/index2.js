@@ -384,8 +384,8 @@ function createSunburst(data) {
     });
 
 
-  split.selectAll('text')
-    .remove();
+  // split.selectAll('text')
+  //   .remove();
 
   splitNodes.append("text")
     .attr("transform", function (d) {
@@ -402,6 +402,7 @@ function createSunburst(data) {
 };
 
 //Adds the text labels and keeps them rotates according to their position on the sunburst
+// Credit to Mike Bostock for this rotation text function
 function rotateText(d) {
   var angle = (d.x0 + d.x1) / Math.PI * 90;
   return (angle < 180) ? angle - 90 : angle + 90;
@@ -438,9 +439,9 @@ function hoverNodes(hover) {
       changeInfo.innerHTML = "";
       userInfo.innerHTML = "<strong>History</strong><br>";
       if (userInfo) {
-        userInfo.innerHTML += data.data.author + " ";
+        userInfo.innerHTML += "<strong>Contributer</strong>: " + data.data.author + "<br>";
         if (data.data.time !== undefined) {
-          userInfo.innerHTML += data.data.time;
+          userInfo.innerHTML += "<strong>Time:</strong> " + data.data.time;
         }
 
         fileInfo.innerHTML = "<strong>Files</strong><br>";
@@ -474,7 +475,7 @@ function hoverNodes(hover) {
 };
 
 window.onload = () => {
-  var scale = 'scale(0.8)';
+  var scale = 'scale(0.9)';
   document.body.style.transform = scale;
   d3.json(dataFile).then(function (data) {
     allNodes = data;
