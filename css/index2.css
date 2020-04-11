@@ -1,10 +1,13 @@
 body {
     margin: 0;
+    padding: 0;
     font-family: 'Roboto', sans-serif;
 }
 
 div{
     text-align: center;
+    margin: 0;
+    padding: 0;
 }
 /* 
 .sunburst{
@@ -22,12 +25,13 @@ div{
 .container{
     display: grid;
     text-align: center;
-    grid-gap: 200px;
+    grid-gap: 50px;
     grid-template-columns: repeat(2, calc(1000px / 2));
     grid-auto-rows: auto;
     grid-auto-rows: minmax(10px, auto);
     justify-content: center;
-
+    margin: 0;
+    padding: 0;
 }
 
 .gitInfo{
