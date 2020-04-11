@@ -1,5 +1,6 @@
 // set the dimensions and margins of the diagram
 
+// var margin = { top: 0, right: 0, bottom: 0, left: 0 };
 var margin = { top: 40, right: 90, bottom: 50, left: 90 };
 var width = 1280 - margin.left - margin.right;
 var height = 720 - margin.top - margin.bottom;
@@ -316,8 +317,8 @@ function arcNodes(svg, radius, data) {
 //////FOR SUNBURST/////////////////
 
 //Dimensions and Color variables
-var w = 700;
-var h = 700;
+var h = screen.height;
+var w = screen.width*.45;
 var r = Math.min(w, h) / 2;
 var colorScale = d3.scaleOrdinal(d3.schemeSet1);
 let dataFile = "SushiGO.json"; //need to enter the file being entered (will edit to run a TSV file)
@@ -326,11 +327,14 @@ let dataFile = "SushiGO.json"; //need to enter the file being entered (will edit
 function createSunburst(data) {
   //Adds the svg element and also adjusts the element
   //There is also a transformation to keep it in the centre of the element region
-  var g = d3.select('svg')
+  var g = d3.select('.svgSun')
+    // .attr('height', screen.height)
+    // .attr('width', screen.width)
     .attr('height', h)
     .attr('width', w)
     .append('g')
-    .attr('transform', 'translate(' + h / 2 + ',' + w / 2 + ')');
+    // .attr('transform', 'translate(' + h / 2  + ',' + w / 2 + ')');
+    .attr('transform', 'translate(' + h/2.5+ ',' + w / 2 + ')');
 
   var partition = d3.partition()
     .size([Math.PI * 2, r]);

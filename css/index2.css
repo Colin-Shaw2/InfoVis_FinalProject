@@ -6,23 +6,28 @@ body {
 div{
     text-align: center;
 }
+/* 
+.sunburst{
+    height: 100vh;
+    width: 45vw;
+} */
 
 .part1{
     overflow-y:scroll;
-    height: 1000px;
+    height: 100vh;
+    width: 45vw;
     
 }
 
 .container{
     display: grid;
     text-align: center;
-    grid-gap: 400px;
+    grid-gap: 200px;
     grid-template-columns: repeat(2, calc(1000px / 2));
     grid-auto-rows: auto;
     grid-auto-rows: minmax(10px, auto);
     justify-content: center;
 
-    padding-top: 100px;
 }
 
 .gitInfo{
