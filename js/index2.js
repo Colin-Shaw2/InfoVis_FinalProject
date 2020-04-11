@@ -13,25 +13,25 @@ var node;
 var nodes;
 var nodeType = 2;
 var lineType = 0;
-var distanceBetweenNodes= 25;
+var distanceBetweenNodes = 25;
 
 function init() {
   d3.json("/data/SushiGotest.json").then(function (data) {
     // declares a tree layout and assigns the size
     results = data;
-    var treeViewSize =0;
+    var treeViewSize = 0;
     var treemap = d3.tree()
-    .separation(function (a, b) { return a.parent === b.parent ? 1 : 2; })
-    .size([width, screen.height*1.5]);
+      .separation(function (a, b) { return a.parent === b.parent ? 1 : 2; })
+      .size([width, screen.height * 1.5]);
     //  assigns the data to a hierarchy using parent-child relationships
     nodes = d3.hierarchy(data)
 
     var largestDepth = 0;
     nodes.each(d => {
-      (d.depth > largestDepth)?largestDepth = d.depth:largestDepth +=0;
+      (d.depth > largestDepth) ? largestDepth = d.depth : largestDepth += 0;
     })
-    
-    treeViewSize = distanceBetweenNodes*largestDepth;
+
+    treeViewSize = distanceBetweenNodes * largestDepth;
     treemap = treemap.size([width, treeViewSize]);
     // maps the node data to the tree layout
     nodes = treemap(nodes);
@@ -47,11 +47,11 @@ function init() {
       // .attr("style", "overflow-y:scroll;")
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-      
-      var center_x = nodes.x;
-      var i = 0;
-      var seen_branches = []
-      
+
+    var center_x = nodes.x;
+    var i = 0;
+    var seen_branches = []
+
     nodes.each(d => {
       d.x = 0;
       if (d.data.branch == "master") {
@@ -320,6 +320,10 @@ var w = 700;
 var h = 700;
 var r = Math.min(w, h) / 2;
 var colorScale = d3.scaleOrdinal(d3.schemeSet1);
+
+var textW = w / 2;
+var textH = h / 2;
+
 let dataFile = "SushiGO.json"; //need to enter the file being entered (will edit to run a TSV file)
 
 
@@ -330,7 +334,18 @@ function createSunburst(data) {
     .attr('height', h)
     .attr('width', w)
     .append('g')
-    .attr('transform', 'translate(' + h / 2 + ',' + w / 2 + ')');
+    .attr('transform', 'translate(' + h / 2 + ',' + w / 2 + ')')
+
+
+  g.append("text")
+    .attr('width', textW)
+    .attr('height', textH)
+    .attr("dx", "-45")
+    .attr("dy", "10")
+    .attr("font-weight", "bold")
+    .attr("font-size", "24")
+    .text("SushiGo");
+
 
   var partition = d3.partition()
     .size([Math.PI * 2, r]);
@@ -369,6 +384,9 @@ function createSunburst(data) {
   splitNodes = split.enter()
     .append('g')
     .attr("class", "node")
+    .text(function (d) {
+      return d.name;
+    })
     .merge(split);
 
   split.exit()
@@ -395,8 +413,7 @@ function createSunburst(data) {
     .attr("dx", "-45")
     .text(function (d) {
       return d.children ? d.data.author : "";
-    });
-
+    })
 
   splitNodes.on("mouseover", hoverNodes);
 };
