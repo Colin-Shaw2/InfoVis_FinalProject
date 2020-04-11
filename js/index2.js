@@ -23,7 +23,7 @@ function init() {
     var treeViewSize = 0;
     var treemap = d3.tree()
       .separation(function (a, b) { return a.parent === b.parent ? 1 : 2; })
-      .size([width, screen.height * 1.5]);
+      .size([screen.width, screen.height * 1.5]);
     //  assigns the data to a hierarchy using parent-child relationships
     nodes = d3.hierarchy(data)
 
@@ -44,8 +44,10 @@ function init() {
     svg = d3.select(".part1")
       .append("svg")
       // .attr("style", "overflow-y:scroll;height: 1000px;")
-      .attr("width", width + margin.left + margin.right)
+      .attr("width", screen.width*.32)
       .attr("height", treeViewSize + margin.top + margin.bottom)
+      // .attr("width", width + margin.left + margin.right)
+      // .attr("height", treeViewSize + margin.top + margin.bottom)
       // .attr("width", 500)
       // .attr("height", screen.height*1.5 + margin.bottom*2)
       // .attr("style", "overflow-y:scroll;")
@@ -63,7 +65,7 @@ function init() {
       //console.log(d.data.branch)
       if (!seen_branches.includes(d.data.branch)) {
         seen_branches.push(d.data.branch);
-        textPosition = 100*seen_branches.indexOf(d.data.branch);
+        textPosition = 90*seen_branches.indexOf(d.data.branch)+5;
         svg.append("g")
            .attr("transform", "translate(" + textPosition + "," + -10 + ")")
            .append("text")
@@ -73,20 +75,20 @@ function init() {
            .text(d.data.branch)
           
         
-        d.x += seen_branches.indexOf(d.data.branch) * 100 + 40;
+        d.x += seen_branches.indexOf(d.data.branch) * 90 + 40;
         // Branch Color Column
         var columnwidth = distanceBetweenNodes*4;
         svg.append("rect")
-          .attr("x", seen_branches.indexOf(d.data.branch) * 100 - 10)
+          .attr("x", seen_branches.indexOf(d.data.branch) * 90 - 5)
           .attr("y", -10)
-          .attr("width", columnwidth)
-          .attr("height", treeViewSize + 10)
+          .attr("width", columnwidth-10)
+          .attr("height", treeViewSize + 25)
           .attr("fill-opacity", .25)
           .attr('fill', columnScale(seen_branches.indexOf(d.data.branch)))
         console.log("Adding rect")
 
       } else {
-        d.x += seen_branches.indexOf(d.data.branch) * 100 + 40;
+        d.x += seen_branches.indexOf(d.data.branch) * 90 + 40;
 
       }
       i++;
