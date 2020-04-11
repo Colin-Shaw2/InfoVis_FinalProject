@@ -54,7 +54,7 @@ function init() {
       var center_x = nodes.x;
       var i = 0;
       var seen_branches = []
-      
+      var textPosition = 0;
     nodes.each(d => {
       d.x = 0;
       if (d.data.branch == "master") {
@@ -62,19 +62,21 @@ function init() {
       //console.log(d.data.branch)
       if (!seen_branches.includes(d.data.branch)) {
         seen_branches.push(d.data.branch);
-        svg.append("text")
-          .attr("x", d.x + seen_branches.indexOf(d.data.branch) * 100)
-          .attr("y", - 20)
-          .attr("dy", ".35em")
-          .attr("text-anchor", "start")
-          .text(d.data.branch)
+        textPosition = 100*seen_branches.indexOf(d.data.branch);
+        svg.append("g")
+           .attr("transform", "translate(" + textPosition + "," + -10 + ")")
+           .append("text")
+           .attr("transform", "rotate(90)")
+           .attr("dy", ".35em")
+           .attr("text-anchor", "start")
+           .text(d.data.branch)
           
         
-        d.x += seen_branches.indexOf(d.data.branch) * 100;
+        d.x += seen_branches.indexOf(d.data.branch) * 100 + 40;
         // Branch Color Column
         var columnwidth = distanceBetweenNodes*4;
         svg.append("rect")
-          .attr("x", d.x - 10)
+          .attr("x", seen_branches.indexOf(d.data.branch) * 100 - 10)
           .attr("y", -10)
           .attr("width", columnwidth)
           .attr("height", treeViewSize + 10)
@@ -83,7 +85,7 @@ function init() {
         console.log("Adding rect")
 
       } else {
-        d.x += seen_branches.indexOf(d.data.branch) * 100;
+        d.x += seen_branches.indexOf(d.data.branch) * 100 + 40;
 
       }
       i++;
