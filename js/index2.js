@@ -117,11 +117,20 @@ function init() {
       .enter()
       .append("g")
       .attr("class", function (d) { return "node" + (d.children ? " node--internal" : " node--leaf"); })
-      .attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+      .attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; })
+      .append("rect")
+      .attr("x", -10)
+      .attr("y", -10)
+      .attr("width", "20px")
+      .attr("height","20px")
+      .attr("fill-opacity", .05)
+
+      
 
     // Creates nodes
+    node.on("mouseover", hoverNodes2);
     arcNodes(svg, 5, nodes.descendants());
-    node.on("mouseover", hoverNodes);
+    
   });
 }
 
@@ -201,8 +210,13 @@ function arcNodes(svg, radius, data) {
         return color(i);
       })
       .attr("d", arc)
-      .attr("transform", function () { return "translate(" + d.x + "," + d.y + ")"; });
+      .attr("transform", function () { return "translate(" + d.x + "," + d.y + ")"; })
+      
+      
+      
   });
+
+
 }
 
 //////FOR SUNBURST/////////////////
@@ -322,12 +336,13 @@ function rotateText(d) {
 
 // Redraw the Sunburst Based on User Input
 function hoverNodes(hover) {
-  console.log("Test")
   let userInfo = document.querySelector("#userInfo");
   let fileInfo = document.querySelector("#fileInfo");
   let changeInfo = document.querySelector("#changeInfo");
   var rootPath = hover.path(root).reverse();
   rootPath.shift();
+  console.log(hover);
+  console.log(rootPath);
   splitNodes.style("opacity", 0.3);
   splitNodes.filter(function (data) {
 
@@ -380,6 +395,66 @@ function hoverNodes(hover) {
     }
   })
     .style("opacity", 1);
+};
+
+// Redraw the Sunburst Based on User Input
+function hoverNodes2(hover) {
+  let userInfo = document.querySelector("#userInfo");
+  let fileInfo = document.querySelector("#fileInfo");
+  let changeInfo = document.querySelector("#changeInfo");
+  console.log(hover);
+  var rootPath = hover.path(root).reverse();
+  rootPath.shift();
+  splitNodes.style("opacity", 1);
+  node.filter(function (data) {
+
+    if (data.hoveredOn && hover === data) {
+      userInfo.innerHTML = "";
+      fileInfo.innerHTML = "";
+      changeInfo.innerHTML = "";
+
+      userInfo.innerHTML = "<strong>History</strong><br>";
+      fileInfo.innerHTML = "<strong>Files</strong><br>";
+      changeInfo.innerHTML = "<strong>Changes Made</strong><br>";
+
+      data.hoveredOn = false;
+      return true;
+
+    } else if (hover === data) {
+      //TEST
+      // console.log(data.data);
+      userInfo.innerHTML = "";
+      fileInfo.innerHTML = "";
+      changeInfo.innerHTML = "";
+      userInfo.innerHTML = "<strong>History</strong><br>";
+      if (userInfo) {
+        userInfo.innerHTML += "<strong>Contributer</strong>: " + data.data.author + "<br>";
+        if (data.data.time !== undefined) {
+          userInfo.innerHTML += "<strong>Time:</strong> " + data.data.time;
+        }
+
+        fileInfo.innerHTML = "<strong>Files</strong><br>";
+        changeInfo.innerHTML = "<strong>Changes Made</strong><br>";
+        if (data.data.files !== undefined) {
+
+
+          for (let i = 0; i < data.data.files.length; i++) {
+            if (i > 9) {
+              break;
+            }
+            fileInfo.innerHTML += data.data.files[i] + "<br>";
+            changeInfo.innerHTML += data.data.changes[i] + "<br>";
+          }
+        }
+      }
+      data.hoveredOn = true;
+
+      return true;
+    } else {
+      data.hoveredOn = false;
+      return (rootPath.indexOf(data) >= 0);
+    }
+  })
 };
 
 window.onload = () => {
