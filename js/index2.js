@@ -403,7 +403,7 @@ function hoverNodes2(hover) {
   let fileInfo = document.querySelector("#fileInfo");
   let changeInfo = document.querySelector("#changeInfo");
   console.log(hover);
-  var hoverPaths = hover.path(root).reverse();
+  var hoverPaths = hover.path(nodes).reverse();
   hoverPaths.shift();
   splitNodes.style("opacity", 1);
   node.filter(function (data) {
@@ -454,7 +454,7 @@ function hoverNodes2(hover) {
       data.hoveredOn = false;
       return (hoverPaths.indexOf(data) >= 0);
     }
-  })
+  }).style("opacity", 1);
 };
 
 window.onload = () => {
