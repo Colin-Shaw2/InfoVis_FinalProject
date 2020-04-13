@@ -12,11 +12,6 @@ div{
     padding: 0;
     background-color: white;
 }
-/* 
-.sunburst{
-    height: 100vh;
-    width: 45vw;
-} */
 
 .part1{
     overflow-y:scroll;
