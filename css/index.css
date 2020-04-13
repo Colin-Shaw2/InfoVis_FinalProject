@@ -1,3 +1,65 @@
 body {
+    margin: 0;
+    padding: 0;
     font-family: 'Roboto', sans-serif;
+    background-color: grey;
+}
+
+div{
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+/* 
+.sunburst{
+    height: 100vh;
+    width: 45vw;
+} */
+
+.part1{
+    overflow-y:scroll;
+    height: 100vh;
+    width: 35vw;
+
+    margin: 0;
+    padding: 0;
+
+    
+}
+
+.part1::-webkit-scrollbar {
+    display: none;
+  }
+  
+
+.container{
+    display: grid;
+    background-color: grey;
+    text-align: center;
+    grid-gap:10px;
+    grid-template-columns: repeat(2, calc(100vw / 2));
+    grid-auto-rows: auto;
+    grid-auto-rows: minmax(10px, auto);
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.gitInfo{
+    display: grid;
+    text-align: center;
+    grid-gap: 10px;
+    grid-template-columns: repeat(3, calc(600px / 2));
+    grid-auto-rows: auto;
+    grid-auto-rows: minmax(10px, auto);
+    justify-content: center;
+
+    position: relative;
+    padding-right: 500px;
+    padding-top: 50px;
+}
+
+.gitInfo div{
+    height: 100px;
 }
