@@ -2,12 +2,14 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
+    background-color: grey;
 }
 
 div{
     text-align: center;
     margin: 0;
     padding: 0;
+    background-color: white;
 }
 /* 
 .sunburst{
@@ -26,8 +28,14 @@ div{
     
 }
 
+.part1::-webkit-scrollbar {
+    display: none;
+  }
+  
+
 .container{
     display: grid;
+    background-color: grey;
     text-align: center;
     grid-gap:10px;
     grid-template-columns: repeat(2, calc(100vw / 2));
@@ -47,8 +55,9 @@ div{
     grid-auto-rows: minmax(10px, auto);
     justify-content: center;
 
-    padding-left: 200px;
-    padding-top: 100px;
+    position: relative;
+    padding-right: 500px;
+    padding-top: 50px;
 }
 
 .gitInfo div{
