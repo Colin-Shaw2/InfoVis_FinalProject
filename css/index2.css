@@ -28,6 +28,11 @@ div{
     
 }
 
+.part1::-webkit-scrollbar {
+    display: none;
+  }
+  
+
 .container{
     display: grid;
     background-color: grey;
@@ -50,8 +55,9 @@ div{
     grid-auto-rows: minmax(10px, auto);
     justify-content: center;
 
-    padding-left: 200px;
-    padding-top: 100px;
+    position: relative;
+    padding-right: 500px;
+    padding-top: 50px;
 }
 
 .gitInfo div{
