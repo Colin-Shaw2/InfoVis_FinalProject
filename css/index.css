@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
-    background-color: grey;
+    background-color: rgb(228, 225, 225);
 }
 
 div{
@@ -30,8 +30,8 @@ div{
   
 
 .container{
-    display: grid;
-    background-color: grey;
+    display: flex;
+    background-color: rgb(228, 225, 225);
     text-align: center;
     grid-gap:10px;
     grid-template-columns: repeat(2, calc(100vw / 2));
@@ -43,7 +43,7 @@ div{
 }
 
 .gitInfo{
-    display: grid;
+    display: flex;
     text-align: center;
     grid-gap: 10px;
     grid-template-columns: repeat(3, calc(600px / 2));
