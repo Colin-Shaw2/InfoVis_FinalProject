@@ -122,15 +122,15 @@ function init() {
       .attr("x", -10)
       .attr("y", -10)
       .attr("width", "20px")
-      .attr("height","20px")
+      .attr("height", "20px")
       .attr("fill-opacity", .05)
 
-      
+
 
     // Creates nodes
     node.on("mouseover", hoverNodes2);
     arcNodes(svg, 5, nodes.descendants());
-    
+
   });
 }
 
@@ -211,9 +211,9 @@ function arcNodes(svg, radius, data) {
       })
       .attr("d", arc)
       .attr("transform", function () { return "translate(" + d.x + "," + d.y + ")"; })
-      
-      
-      
+
+
+
   });
 
 
@@ -339,10 +339,10 @@ function hoverNodes(hover) {
   let userInfo = document.querySelector("#userInfo");
   let fileInfo = document.querySelector("#fileInfo");
   let changeInfo = document.querySelector("#changeInfo");
-  var rootPath = hover.path(root).reverse();
-  rootPath.shift();
+  var hoverPaths = hover.path(root).reverse();
+  hoverPaths.shift();
   console.log(hover);
-  console.log(rootPath);
+  console.log(hoverPaths);
   splitNodes.style("opacity", 0.3);
   splitNodes.filter(function (data) {
 
@@ -391,7 +391,7 @@ function hoverNodes(hover) {
       return true;
     } else {
       data.hoveredOn = false;
-      return (rootPath.indexOf(data) >= 0);
+      return (hoverPaths.indexOf(data) >= 0);
     }
   })
     .style("opacity", 1);
@@ -403,8 +403,8 @@ function hoverNodes2(hover) {
   let fileInfo = document.querySelector("#fileInfo");
   let changeInfo = document.querySelector("#changeInfo");
   console.log(hover);
-  var rootPath = hover.path(root).reverse();
-  rootPath.shift();
+  var hoverPaths = hover.path(root).reverse();
+  hoverPaths.shift();
   splitNodes.style("opacity", 1);
   node.filter(function (data) {
 
@@ -452,7 +452,7 @@ function hoverNodes2(hover) {
       return true;
     } else {
       data.hoveredOn = false;
-      return (rootPath.indexOf(data) >= 0);
+      return (hoverPaths.indexOf(data) >= 0);
     }
   })
 };
