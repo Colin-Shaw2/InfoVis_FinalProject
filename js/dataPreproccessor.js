@@ -19,7 +19,6 @@ d3.dsv("\t", "data/" + fileName + ".tsv").then(function (data) {
 });
 
 function download(content, fileName, contentType) {
-  console.log("asdf");
   var a = document.createElement("a");
   var file = new Blob([content], {type: contentType});
   a.href = URL.createObjectURL(file);
