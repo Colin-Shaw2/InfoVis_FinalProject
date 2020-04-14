@@ -16,7 +16,7 @@ repoName = "SushiGo"
 r = g.get_repo(userName+repoName)
 commit_list = list(r.get_commits())
 print("Reading info from " + repoName)
-f = open(repoName+"test.tsv", "w+")
+f = open("data/"+ repoName+"test.tsv", "w+")
 f.write("author\ttime\tparents\tmessage\tsha\tchanges\tadditions\tdeletions\tfiles\tbranch\n")
 branch_list = r.get_branches()
 for commit in commit_list:
