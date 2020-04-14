@@ -153,19 +153,6 @@ function straightLine(svg, nodes) {
     .attr('y2', function (d) { return d.parent.y })
 }
 
-
-function placeText(node, width) {
-  node.append("text")
-    .attr("dy", ".35em")
-    .attr("y", function (d) {
-      return d.children ? 0 : 0
-    })
-    .attr("x", function (d) {
-      return d.children ? width - d.x : width - d.x
-    })
-    .text(function (d) { return d.data.Author; });
-}
-
 function arcNodes(svg, radius, data) {
   // Arc Basis Function
   var arc = d3.arc()
@@ -212,13 +199,69 @@ function arcNodes(svg, radius, data) {
       })
       .attr("d", arc)
       .attr("transform", function () { return "translate(" + d.x + "," + d.y + ")"; })
-
-
-
   });
 
 
 }
+
+function hoverNodesTree(hover) {
+  let userInfo = document.querySelector("#userInfo");
+  let fileInfo = document.querySelector("#fileInfo");
+  let changeInfo = document.querySelector("#changeInfo");
+  console.log(hover);
+  var hoverPaths = hover.path(root).reverse();
+  hoverPaths.shift();
+  splitNodes.style("opacity", 1);
+  node.filter(function (data) {
+
+    if (data.hoveredOn && hover === data) {
+      userInfo.innerHTML = "";
+      fileInfo.innerHTML = "";
+      changeInfo.innerHTML = "";
+
+      userInfo.innerHTML = "<strong>Details</strong><br>";
+      fileInfo.innerHTML = "<strong>Files</strong><br>";
+      changeInfo.innerHTML = "<strong>Changes</strong><br>";
+
+      data.hoveredOn = false;
+      return true;
+
+    } else if (hover === data) {
+      //TEST
+      // console.log(data.data);
+      userInfo.innerHTML = "";
+      fileInfo.innerHTML = "";
+      changeInfo.innerHTML = "";
+      userInfo.innerHTML = "<strong>Details</strong><br>";
+      if (userInfo) {
+        userInfo.innerHTML += "<strong>Contributer</strong>: " + data.data.author + "<br>";
+        if (data.data.time !== undefined) {
+          userInfo.innerHTML += "<strong>Time:</strong> " + data.data.time;
+        }
+
+        fileInfo.innerHTML = "<strong>Files</strong><br>";
+        changeInfo.innerHTML = "<strong>Changes</strong><br>";
+        if (data.data.files !== undefined) {
+
+
+          for (let i = 0; i < data.data.files.length; i++) {
+            if (i > 9) {
+              break;
+            }
+            fileInfo.innerHTML += data.data.files[i] + "<br>";
+            changeInfo.innerHTML += data.data.changes[i] + "<br>";
+          }
+        }
+      }
+      data.hoveredOn = true;
+
+      return true;
+    } else {
+      data.hoveredOn = false;
+      return (hoverPaths.indexOf(data) >= 0);
+    }
+  })
+};
 
 //////FOR SUNBURST/////////////////
 
@@ -401,65 +444,7 @@ function hoverNodesSun(hover) {
     .style("opacity", 1);
 };
 
-// Redraw the Sunburst Based on User Input
-function hoverNodesTree(hover) {
-  let userInfo = document.querySelector("#userInfo");
-  let fileInfo = document.querySelector("#fileInfo");
-  let changeInfo = document.querySelector("#changeInfo");
-  console.log(hover);
-  var hoverPaths = hover.path(root).reverse();
-  hoverPaths.shift();
-  node.style("opacity", 1);
-  node.filter(function (data) {
 
-    if (data.hoveredOn && hover === data) {
-      userInfo.innerHTML = "";
-      fileInfo.innerHTML = "";
-      changeInfo.innerHTML = "";
-
-      userInfo.innerHTML = "<strong>Details</strong><br>";
-      fileInfo.innerHTML = "<strong>Files</strong><br>";
-      changeInfo.innerHTML = "<strong>Changes</strong><br>";
-
-      data.hoveredOn = false;
-      return true;
-
-    } else if (hover === data) {
-      //TEST
-      // console.log(data.data);
-      userInfo.innerHTML = "";
-      fileInfo.innerHTML = "";
-      changeInfo.innerHTML = "";
-      userInfo.innerHTML = "<strong>Details</strong><br>";
-      if (userInfo) {
-        userInfo.innerHTML += "<strong>Contributer</strong>: " + data.data.author + "<br>";
-        if (data.data.time !== undefined) {
-          userInfo.innerHTML += "<strong>Time:</strong> " + data.data.time;
-        }
-
-        fileInfo.innerHTML = "<strong>Files</strong><br>";
-        changeInfo.innerHTML = "<strong>Changes</strong><br>";
-        if (data.data.files !== undefined) {
-
-
-          for (let i = 0; i < data.data.files.length; i++) {
-            if (i > 9) {
-              break;
-            }
-            fileInfo.innerHTML += data.data.files[i] + "<br>";
-            changeInfo.innerHTML += data.data.changes[i] + "<br>";
-          }
-        }
-      }
-      data.hoveredOn = true;
-
-      return true;
-    } else {
-      data.hoveredOn = false;
-      return (hoverPaths.indexOf(data) >= 0);
-    }
-  })
-};
 
 window.onload = () => {
   var scale = 'scale(0.9)';
