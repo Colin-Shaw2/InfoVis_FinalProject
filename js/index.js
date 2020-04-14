@@ -353,7 +353,7 @@ function hoverNodes(hover) {
 
       userInfo.innerHTML = "<strong>History</strong><br>";
       fileInfo.innerHTML = "<strong>Files</strong><br>";
-      changeInfo.innerHTML = "<strong>Changes Made</strong><br>";
+      changeInfo.innerHTML = "<strong>Changes</strong><br>";
 
       data.hoveredOn = false;
       splitNodes.style("opacity", 1);
@@ -373,7 +373,7 @@ function hoverNodes(hover) {
         }
 
         fileInfo.innerHTML = "<strong>Files</strong><br>";
-        changeInfo.innerHTML = "<strong>Changes Made</strong><br>";
+        changeInfo.innerHTML = "<strong>Changes</strong><br>";
         if (data.data.files !== undefined) {
 
 
@@ -415,7 +415,7 @@ function hoverNodes2(hover) {
 
       userInfo.innerHTML = "<strong>History</strong><br>";
       fileInfo.innerHTML = "<strong>Files</strong><br>";
-      changeInfo.innerHTML = "<strong>Changes Made</strong><br>";
+      changeInfo.innerHTML = "<strong>Changes</strong><br>";
 
       data.hoveredOn = false;
       return true;
@@ -434,7 +434,7 @@ function hoverNodes2(hover) {
         }
 
         fileInfo.innerHTML = "<strong>Files</strong><br>";
-        changeInfo.innerHTML = "<strong>Changes Made</strong><br>";
+        changeInfo.innerHTML = "<strong>Changes</strong><br>";
         if (data.data.files !== undefined) {
 
 
