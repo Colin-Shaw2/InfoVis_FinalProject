@@ -40,17 +40,20 @@ div{
     
 }
 
-/* .sunburst{
-    position: absolute;
-    left: 50vw;
-    top: 150px;
-    width: 35vw;
-
-    margin: 0;
-    padding: 0;
-
+.sunburst{
+    height: 59vh;
+    width: 45vw;
     
-} */
+}
+
+.sunburst svg{
+    position: relative;
+    top: 1vw;
+    left: 9.5vw;
+    height: 100vh;
+    width: 45vw;
+
+}
 
 .part1::-webkit-scrollbar {
     display: none;
@@ -71,23 +74,35 @@ div{
 }
 
 .gitInfo{
-    height: 100vh;
-    width: 25vw;
-    display: flex;
+    height: 39vh;
+    width: 45vw;
+    display: inline-block;
+    margin-top: 1vw;
 
 }
 
 #userInfo{
-    /* position: absolute; */
-    height: 10px;
+    padding-top: 1vw;
 }
 #fileInfo{
-    /* position: absolute; */
-    /* width: 100vw; */
+ 
 
 }
 #changeInfo{
     /* position: absolute; */
     /* width: 100vw; */
 
+}
+
+
+
+.columnInfo{
+    padding-top: 1vw;
+    display: grid;
+    text-align: center;
+    grid-gap: 25vw;
+    grid-template-columns: repeat(2, calc(10vw / 2));
+    grid-auto-rows: auto;
+    grid-auto-rows: minmax(10px, auto);
+    justify-content: center;
 }
