@@ -80,7 +80,7 @@ function makeTree(data) {
 function makeSunburst(inData) {
   authors = new Set();
   //make the top level
-  sunburstData = {name: "SushiGo", children: [] };
+  sunburstData = {name: fileName, children: [] };
   //get all the authors
   inData.forEach(element => {
     authors.add(element.author);
