@@ -222,8 +222,8 @@ function arcNodes(svg, radius, data) {
 //////FOR SUNBURST/////////////////
 
 //Dimensions and Color variables
-var h = screen.height * .6;
-var w = screen.width * .6;
+var h = screen.height * .4;
+var w = screen.width * .4;
 var r = Math.min(w, h) / 2;
 var colorScale = d3.scaleOrdinal(d3.schemeSet1);
 

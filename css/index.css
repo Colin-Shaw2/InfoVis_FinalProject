@@ -11,18 +11,46 @@ div{
     margin: 0;
     padding: 0;
     background-color: white;
+    /* background-color: red; */
 }
 
 .part1{
+    position: absolute;
+    top: 20px;
+    left: 0vw;
     overflow-y:scroll;
     height: 100vh;
-    width: 35vw;
+    width: 45vw;
 
     margin: 0;
     padding: 0;
 
     
 }
+.part2{
+    position: absolute;
+    top: 20px;
+    left: 50vw;
+    height: 100vh;
+    width: 45vw;
+
+    margin: 0;
+    padding: 0;
+    background-color: rgb(228, 225, 225);
+    
+}
+
+/* .sunburst{
+    position: absolute;
+    left: 50vw;
+    top: 150px;
+    width: 35vw;
+
+    margin: 0;
+    padding: 0;
+
+    
+} */
 
 .part1::-webkit-scrollbar {
     display: none;
@@ -31,7 +59,7 @@ div{
 
 .container{
     display: flex;
-    background-color: rgb(228, 225, 225);
+    /* background-color: rgb(228, 225, 225);
     text-align: center;
     grid-gap:10px;
     grid-template-columns: repeat(2, calc(100vw / 2));
@@ -39,23 +67,27 @@ div{
     grid-auto-rows: minmax(10px, auto);
     justify-content: center;
     margin: 0;
-    padding: 0;
+    padding: 0; */
 }
 
 .gitInfo{
+    height: 100vh;
+    width: 25vw;
     display: flex;
-    text-align: center;
-    grid-gap: 10px;
-    grid-template-columns: repeat(3, calc(600px / 2));
-    grid-auto-rows: auto;
-    grid-auto-rows: minmax(10px, auto);
-    justify-content: center;
 
-    position: relative;
-    padding-right: 500px;
-    padding-top: 50px;
 }
 
-.gitInfo div{
-    height: 100px;
+#userInfo{
+    /* position: absolute; */
+    height: 10px;
+}
+#fileInfo{
+    /* position: absolute; */
+    /* width: 100vw; */
+
+}
+#changeInfo{
+    /* position: absolute; */
+    /* width: 100vw; */
+
 }
