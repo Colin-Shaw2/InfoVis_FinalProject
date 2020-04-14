@@ -124,12 +124,12 @@ function init() {
       .attr("y", -10)
       .attr("width", "20px")
       .attr("height", "20px")
-      .attr("fill", function (d) { return colorScale(d.data.author)} );
+      .attr("fill", function (d) { return colorScale(d.data.author) });
 
 
 
     // Creates nodes
-    node.on("mouseover", hoverNodes2);
+    node.on("mouseover", hoverNodesTree);
     arcNodes(svg, 5, nodes.descendants());
 
   });
@@ -226,7 +226,7 @@ function arcNodes(svg, radius, data) {
 var h = screen.height * .45;
 var w = screen.width * .45;
 var r = Math.min(w, h) / 2;
-var colorScale = d3.scaleOrdinal(d3.schemeSet2);
+var colorScale = d3.scaleOrdinal(d3.schemeTableau10);
 
 var textW = w / 2;
 var textH = h / 2;
@@ -325,7 +325,7 @@ function createSunburst(data) {
       return d.children ? d.data.author : "";
     })
 
-  splitNodes.on("mouseover", hoverNodes);
+  splitNodes.on("mouseover", hoverNodesSun);
 };
 
 //Adds the text labels and keeps them rotates according to their position on the sunburst
@@ -336,7 +336,7 @@ function rotateText(d) {
 }
 
 // Redraw the Sunburst Based on User Input
-function hoverNodes(hover) {
+function hoverNodesSun(hover) {
   let userInfo = document.querySelector("#userInfo");
   let fileInfo = document.querySelector("#fileInfo");
   let changeInfo = document.querySelector("#changeInfo");
@@ -352,7 +352,7 @@ function hoverNodes(hover) {
       fileInfo.innerHTML = "";
       changeInfo.innerHTML = "";
 
-      userInfo.innerHTML = "<strong>History</strong><br>";
+      userInfo.innerHTML = "<strong>Details</strong><br>";
       fileInfo.innerHTML = "<strong>Files</strong><br>";
       changeInfo.innerHTML = "<strong>Changes</strong><br>";
 
@@ -366,11 +366,11 @@ function hoverNodes(hover) {
       userInfo.innerHTML = "";
       fileInfo.innerHTML = "";
       changeInfo.innerHTML = "";
-      userInfo.innerHTML = "<strong>History</strong><br>";
+      userInfo.innerHTML = "<strong>Details</strong><br>";
       if (userInfo) {
         userInfo.innerHTML += "<strong>Contributer</strong>: " + data.data.author + "<br>";
         if (data.data.time !== undefined) {
-          userInfo.innerHTML += "<strong>Time:</strong> " + data.data.time +"<br>";
+          userInfo.innerHTML += "<strong>Time:</strong> " + data.data.time + "<br>";
         }
         if (data.data.message !== undefined) {
           userInfo.innerHTML += "<strong>Message:</strong> " + data.data.message;
@@ -402,14 +402,14 @@ function hoverNodes(hover) {
 };
 
 // Redraw the Sunburst Based on User Input
-function hoverNodes2(hover) {
+function hoverNodesTree(hover) {
   let userInfo = document.querySelector("#userInfo");
   let fileInfo = document.querySelector("#fileInfo");
   let changeInfo = document.querySelector("#changeInfo");
   console.log(hover);
   var hoverPaths = hover.path(root).reverse();
   hoverPaths.shift();
-  splitNodes.style("opacity", 1);
+  node.style("opacity", 1);
   node.filter(function (data) {
 
     if (data.hoveredOn && hover === data) {
@@ -417,7 +417,7 @@ function hoverNodes2(hover) {
       fileInfo.innerHTML = "";
       changeInfo.innerHTML = "";
 
-      userInfo.innerHTML = "<strong>History</strong><br>";
+      userInfo.innerHTML = "<strong>Details</strong><br>";
       fileInfo.innerHTML = "<strong>Files</strong><br>";
       changeInfo.innerHTML = "<strong>Changes</strong><br>";
 
@@ -430,7 +430,7 @@ function hoverNodes2(hover) {
       userInfo.innerHTML = "";
       fileInfo.innerHTML = "";
       changeInfo.innerHTML = "";
-      userInfo.innerHTML = "<strong>History</strong><br>";
+      userInfo.innerHTML = "<strong>Details</strong><br>";
       if (userInfo) {
         userInfo.innerHTML += "<strong>Contributer</strong>: " + data.data.author + "<br>";
         if (data.data.time !== undefined) {
