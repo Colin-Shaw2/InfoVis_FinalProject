@@ -1,6 +1,6 @@
 var fileName ='SushiGo';
 
-d3.dsv("\t", fileName + ".tsv").then(function (data) {
+d3.dsv("\t", "data/" + fileName + ".tsv").then(function (data) {
   data.forEach(e => {
     e.parents = eval(e.parents);
     e.changes = eval(e.changes);
