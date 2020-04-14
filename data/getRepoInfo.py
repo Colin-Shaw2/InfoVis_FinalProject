@@ -61,15 +61,6 @@ for commit in commit_list:
     if (name == ""):
         f.write("master")
         f.write("\n")
-    
-    # f.write("\n")
-    # print(commit.commit.parents)
-    #print(commit.files[0].changes)
 print(branch_list)
 f.close()
 print("FINISHED")
-# for repo in g.get_user().get_repos():
-#     print(repo.name)
-    #repo.edit(has_wiki=False)
-    # to see all the available attributes and methods
-    #print(dir(repo))

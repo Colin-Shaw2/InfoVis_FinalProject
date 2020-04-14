@@ -1,4 +1,4 @@
-var fileName ='SushiGotest';
+var fileName ='SushiGo';
 
 d3.dsv("\t", fileName + ".tsv").then(function (data) {
   data.forEach(e => {
@@ -11,26 +11,10 @@ d3.dsv("\t", fileName + ".tsv").then(function (data) {
     e.isMainBranch = (e.branch === "master")?"true":"false";
   });
   findChildren(data);
-  // console.log(data[0]);
-  // console.log(data);
   tree = makeTree(data);
-  // download(JSON.stringify(tree), fileName + '.json');
-  // console.log(tree);
-  // console.log(JSON.stringify(tree));
-  // sunburst = makeSunburst(data);
-  // console.log(JSON.stringify(tree));
-  // download(JSON.stringify(tree), 'SushiGoBranchesSmall.json');
-  // console.log(tree);
-  // console.log(data);
-  // console.log("asdddf");
-  // console.log(JSON.stringify(data));
-  // console.log(tree.children);
-  // console.log(JSON.stringify(tree));
-  // download(JSON.stringify(sunburst), 'SQA_ProjectSun.json');
-  // download(JSON.stringify(tree), 'SQA_ProjectBranchesSmall.json');
-  // download(JSON.stringify(sunburst), 'SQA_Project_Sunburst.json');
-  // download(JSON.stringify(sunburst), 'SushiGo.json');
-  // download(JSON.stringify(sunburst), 'Sunburst_Test.json');
+  sunburst = makeSunburst(data);
+  download(JSON.stringify(tree), fileName + 'Tree.json');
+  download(JSON.stringify(sunburst), fileName + 'Sunburst.json');
   
 });
 

@@ -17,7 +17,7 @@ var lineType = 0;
 var distanceBetweenNodes = 25;
 
 function init() {
-  d3.json("/data/SushiGotest.json").then(function (data) {
+  d3.json("/data/SushiGoTree.json").then(function (data) {
     // declares a tree layout and assigns the size
     results = data;
     var treeViewSize = 0;
@@ -230,7 +230,7 @@ var colorScale = d3.scaleOrdinal(d3.schemeSet1);
 var textW = w / 2;
 var textH = h / 2;
 
-let dataFile = "SushiGO.json"; //need to enter the file being entered (will edit to run a TSV file)
+let dataFile = "/data/SushiGoSunburst.json"; //need to enter the file being entered (will edit to run a TSV file)
 
 
 function createSunburst(data) {
