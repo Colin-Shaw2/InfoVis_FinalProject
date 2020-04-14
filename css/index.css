@@ -24,8 +24,11 @@ div{
 
     margin: 0;
     padding: 0;
+}
 
-    
+.part1 svg {
+    position: absolute;
+    left: 10vw;
 }
 .part2{
     position: absolute;
