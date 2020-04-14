@@ -369,7 +369,10 @@ function hoverNodes(hover) {
       if (userInfo) {
         userInfo.innerHTML += "<strong>Contributer</strong>: " + data.data.author + "<br>";
         if (data.data.time !== undefined) {
-          userInfo.innerHTML += "<strong>Time:</strong> " + data.data.time;
+          userInfo.innerHTML += "<strong>Time:</strong> " + data.data.time +"<br>";
+        }
+        if (data.data.message !== undefined) {
+          userInfo.innerHTML += "<strong>Message:</strong> " + data.data.message;
         }
 
         fileInfo.innerHTML = "<strong>Files</strong><br>";
