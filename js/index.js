@@ -118,12 +118,13 @@ function init() {
       .append("g")
       .attr("class", function (d) { return "node" + (d.children ? " node--internal" : " node--leaf"); })
       .attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; })
-      .append("rect")
+      .append("circle")
+      .attr("r", "10")
       .attr("x", -10)
       .attr("y", -10)
       .attr("width", "20px")
       .attr("height", "20px")
-      .attr("fill-opacity", .05)
+      .attr("fill", function (d) { return colorScale(d.data.author)} );
 
 
 
@@ -225,7 +226,7 @@ function arcNodes(svg, radius, data) {
 var h = screen.height * .45;
 var w = screen.width * .45;
 var r = Math.min(w, h) / 2;
-var colorScale = d3.scaleOrdinal(d3.schemeSet1);
+var colorScale = d3.scaleOrdinal(d3.schemeSet2);
 
 var textW = w / 2;
 var textH = h / 2;
