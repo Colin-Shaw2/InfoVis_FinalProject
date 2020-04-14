@@ -10,11 +10,10 @@ d3.dsv("\t", "data/" + fileName + ".tsv").then(function (data) {
     e.files = eval(e.files);
     e.isMainBranch = (e.branch === "master")?"true":"false";
   });
-  findChildren(data);
-  tree = makeTree(data);
   sunburst = makeSunburst(data);
-  download(JSON.stringify(tree), fileName + 'Tree.json');
   download(JSON.stringify(sunburst), fileName + 'Sunburst.json');
+  tree = makeTree(data);
+  download(JSON.stringify(tree), fileName + 'Tree.json');
   
 });
 
@@ -47,6 +46,7 @@ function findChildren(data) {
 }
 
 function makeTree(data) {
+  data = findChildren(data);
   var shaUsed = [];
   treeData = data[data.length - 1];
   data.forEach(element => {
@@ -61,11 +61,8 @@ function makeTree(data) {
     currentNode = data[index]
       if(currentNode.branch != "master"){
         var currentBranch = currentNode.branch
-        console.log(currentNode.branch);
-        // console.log(currentNode.parents.length)
         currentNode = data.find(e => e.sha == currentNode.parents[0])
         while(currentNode.branch == "master" && currentNode.parents.length != 0){
-          // while(currentNode.parents.length != 0){
           currentNode.branch = currentBranch;
           currentNode.isMainBranch = "false"
           currentNode = data.find(e => e.sha == currentNode.parents[0])
@@ -79,16 +76,11 @@ function makeTree(data) {
   return treeData;
 }
 
-function getParents(){
-
-}
 
 function makeSunburst(inData) {
   authors = new Set();
   //make the top level
-  sunburstData = {name: "RepoName", children: [] };
-  console.log("level 1 ");
-  console.log(sunburstData);
+  sunburstData = {name: "SushiGo", children: [] };
   //get all the authors
   inData.forEach(element => {
     authors.add(element.author);
@@ -97,23 +89,13 @@ function makeSunburst(inData) {
   authors.forEach(element => {
     sunburstData.children.push({author: element, children : []});
   });
-  
-  console.log("level 2 ");
-  console.log( sunburstData);
   inData.forEach(element => {
-    // console.log(element.author);
-    // console.log(sunburstData.children[element.author]);
     sunburstData.children.forEach(e => {
       if(e.author === element.author){
         e.children.push(element);
-        // console.log(e.children);
       }
-      // console.log(element.author);
-      // console.log(e.author);
     });
   });
-  console.log("level 3 ");
-  console.log(sunburstData);
   return sunburstData;
 }
 
